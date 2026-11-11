@@ -1,0 +1,27 @@
+---
+interface Props {
+  title: string;
+  date: Date;
+  track: string;
+  summary: string;
+  href: string;
+}
+
+const { title, date, track, summary, href } = Astro.props;
+const formatted = date.toLocaleDateString('en-GB', {
+  year: 'numeric',
+  month: 'short',
+  day: '2-digit',
+});
+---
+
+<article class="panel note-card">
+  <a href={href}>
+    <div class="meta-row">
+      <time datetime={date.toISOString()}>{formatted}</time>
+      <span>Track {track}</span>
+    </div>
+    <h3>{title}</h3>
+    <p style="margin:0;color:var(--ink-muted);font-size:0.95rem;">{summary}</p>
+  </a>
+</article>

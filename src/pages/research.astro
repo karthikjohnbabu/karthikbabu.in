@@ -1,0 +1,50 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const tracks = (await getCollection('tracks')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout
+  title="Research"
+  description="Four research tracks on making AI run fast on real hardware, GPU programming, small devices, and parallel computing for science."
+  path="/research"
+>
+  <header class="reveal">
+    <p class="eyebrow">Research</p>
+    <h1>Four tracks. One at a time.</h1>
+    <p class="lede" style="margin-top:1rem;">
+      Tracks are done one at a time. Results are published only when I can reproduce them.
+    </p>
+  </header>
+
+  <div class="section" style="display:grid;gap:1rem;">
+    {
+      tracks.map((track) => (
+        <article class="panel" style="padding:1.4rem 1.5rem;" id={`track-${track.data.letter.toLowerCase()}`}>
+          <div class="meta-row">
+            <span class="mono" style="color:var(--accent);">Track {track.data.letter}</span>
+            <span class="status-pill" data-status={track.data.status} style="margin:0;">
+              {track.data.status}
+            </span>
+          </div>
+          <h2 style="font-size:clamp(1.25rem,2.5vw,1.7rem);">{track.data.title}</h2>
+          <dl style="display:grid;gap:1rem;margin:1.1rem 0 0;">
+            <div>
+              <dt class="mono" style="font-size:0.75rem;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink-muted);">
+                The experiment
+              </dt>
+              <dd style="margin:0.35rem 0 0;color:var(--ink-muted);">{track.data.experiment}</dd>
+            </div>
+            <div>
+              <dt class="mono" style="font-size:0.75rem;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink-muted);">
+                Builds toward
+              </dt>
+              <dd style="margin:0.35rem 0 0;color:var(--ink-muted);">{track.data.buildsToward}</dd>
+            </div>
+          </dl>
+        </article>
+      ))
+    }
+  </div>
+</BaseLayout>

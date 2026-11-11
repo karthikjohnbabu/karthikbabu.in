@@ -1,0 +1,37 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import NotebookCard from '../../components/NotebookCard.astro';
+
+const notes = (await getCollection('notebook')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+---
+
+<BaseLayout
+  title="Lab notebook"
+  description="Field notes from hands-on R&D: what I ran, what I measured, and what I found."
+  path="/notebook"
+>
+  <header class="reveal">
+    <p class="eyebrow">Lab notebook</p>
+    <h1>What I ran, measured, and found.</h1>
+    <p class="lede" style="margin-top:1rem;">
+      Newest first. Each entry is one experiment on my own machines.
+    </p>
+  </header>
+
+  <div class="section" style="display:grid;gap:1rem;">
+    {
+      notes.map((note) => (
+        <NotebookCard
+          title={note.data.title}
+          date={note.data.date}
+          track={note.data.track}
+          summary={note.data.summary}
+          href={`/notebook/${note.id}`}
+        />
+      ))
+    }
+  </div>
+</BaseLayout>

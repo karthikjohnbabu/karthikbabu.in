@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Page not found"
+  description="That page is not here."
+  path="/404"
+>
+  <div class="page-404 reveal">
+    <p class="code" aria-hidden="true">404</p>
+    <h1>Page not found</h1>
+    <p class="lede" style="margin:0.75rem auto 1.5rem;">
+      That route is empty. The notebook and research tracks are still here.
+    </p>
+    <div class="cta-row" style="justify-content:center;">
+      <a class="btn btn-primary" href="/">Home</a>
+      <a class="btn btn-ghost" href="/notebook">Lab notebook</a>
+    </div>
+  </div>
+</BaseLayout>

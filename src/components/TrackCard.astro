@@ -1,0 +1,21 @@
+---
+interface Props {
+  letter: string;
+  title: string;
+  status: string;
+  href?: string;
+  experiment?: string;
+  compact?: boolean;
+}
+
+const { letter, title, status, href = '/research', experiment, compact = false } = Astro.props;
+---
+
+<article class="panel track-card">
+  <a href={href} aria-label={`Research track ${letter}: ${title}`}>
+    <div class="track-letter">Track {letter}</div>
+    <h3>{title}</h3>
+    {!compact && experiment && <p style="margin:0;color:var(--ink-muted);font-size:0.95rem;">{experiment}</p>}
+    <span class="status-pill" data-status={status}>{status}</span>
+  </a>
+</article>

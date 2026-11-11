@@ -1,0 +1,47 @@
+---
+---
+
+<section class="panel result-card reveal" aria-labelledby="latest-result-title">
+  <p class="eyebrow">Latest result</p>
+  <h2 id="latest-result-title">vLLM on Apple Silicon</h2>
+  <p style="margin:0;color:var(--ink-muted);max-width:42rem;">
+    vLLM vs plain Transformers on an Apple Silicon Mac: same model, same questions, honest numbers.
+  </p>
+
+  <div class="result-grid">
+    <div class="metric">
+      <div class="metric-label">Single request · tok/s</div>
+      <div class="metric-value mono">192 <span style="color:var(--ink-muted);font-size:0.85rem;">vs 182</span></div>
+      <div class="metric-sub">vLLM (123–222) · Transformers (181–188)</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">10 one by one · tok/s</div>
+      <div class="metric-value mono">203 <span style="color:var(--ink-muted);font-size:0.85rem;">vs 181</span></div>
+      <div class="metric-sub">vLLM (197–213) · Transformers (180–186)</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">100 together · tok/s</div>
+      <div class="metric-value mono">4,133</div>
+      <div class="metric-sub">vLLM only (2,647–5,571). Transformers not run at this batch.</div>
+    </div>
+  </div>
+
+  <p style="margin:0;color:var(--ink-muted);font-size:0.95rem;">
+    Median of 3 runs. Machine: MacBook Pro, Apple M5 Pro, 24&nbsp;GB. Model: SmolLM2-360M-Instruct (bfloat16).
+    At 100 requests together, median throughput was about 23× the sequential Transformers run.
+  </p>
+
+  <div class="caveats" role="note">
+    <strong>Caveats:</strong>
+    small sample (three runs, one Mac, one small model);
+    results vary between runs (the 100-request case ranged about 2×);
+    answer lengths differ between engines — compare tokens/sec and requests/sec, not wall time alone.
+  </div>
+
+  <div class="cta-row">
+    <a class="btn btn-primary" href="https://github.com/karthikjohnbabu/vllm-mac-bench" rel="noopener noreferrer" target="_blank">
+      Reproduce it yourself
+    </a>
+    <a class="btn btn-ghost" href="/notebook/2025-11-08-vllm-on-mac">Notebook entry</a>
+  </div>
+</section>

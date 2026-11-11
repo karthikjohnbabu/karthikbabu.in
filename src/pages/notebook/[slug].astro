@@ -1,0 +1,52 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const notes = await getCollection('notebook');
+  return notes.map((note) => ({
+    params: { slug: note.id },
+    props: { note },
+  }));
+}
+
+const { note } = Astro.props;
+const { Content } = await render(note);
+const formatted = note.data.date.toLocaleDateString('en-GB', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<BaseLayout
+  title={note.data.title}
+  description={note.data.summary}
+  path={`/notebook/${note.id}`}
+  ogType="article"
+>
+  <article class="prose reveal">
+    <p class="eyebrow">Lab notebook</p>
+    <div class="meta-row">
+      <time datetime={note.data.date.toISOString()}>{formatted}</time>
+      <span>Track {note.data.track}</span>
+    </div>
+    <h1 style="max-width:22ch;">{note.data.title}</h1>
+    <p class="lede" style="margin-top:0.85rem;">{note.data.summary}</p>
+    {
+      note.data.link && (
+        <p style="margin-top:1rem;">
+          <a href={note.data.link} rel="noopener noreferrer" target="_blank">
+            Related link →
+          </a>
+        </p>
+      )
+    }
+    <div style="margin-top:2rem;">
+      <Content />
+    </div>
+    <p style="margin-top:2.5rem;">
+      <a href="/notebook">← All notebook entries</a>
+    </p>
+  </article>
+</BaseLayout>

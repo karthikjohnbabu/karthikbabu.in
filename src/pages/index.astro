@@ -1,0 +1,101 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import HeroScene from '../components/HeroScene.astro';
+import TrackCard from '../components/TrackCard.astro';
+import NotebookCard from '../components/NotebookCard.astro';
+import LatestResult from '../components/LatestResult.astro';
+
+const tracks = (await getCollection('tracks')).sort((a, b) => a.data.order - b.data.order);
+const notes = (await getCollection('notebook'))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+---
+
+<BaseLayout
+  title="Karthik Babu: independent R&D on making computation fast on real chips."
+  description="Karthik Babu: independent R&D on making computation fast on real chips."
+  path="/"
+>
+  <section class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow">Independent R&amp;D</p>
+      <h1>Making computation fast on real chips.</h1>
+      <p class="lede hero-subline" style="margin-top:1rem;">
+        <span class="hero-topics"
+          ><span>AI models<span class="hero-sep"> · </span></span
+          ><span>GPU code<span class="hero-sep"> · </span></span
+          ><span>small devices<span class="hero-sep"> · </span></span
+          ><span>scientific simulation.</span></span
+        > Measured on hardware I own, with numbers you can verify.
+      </p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="/research">See the research</a>
+        <a class="btn btn-ghost" href="/notebook">Read the notebook</a>
+      </div>
+    </div>
+    <HeroScene />
+  </section>
+
+  <section class="section tracks-section" aria-labelledby="tracks-heading">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">Scope</p>
+        <h2 id="tracks-heading">Research tracks</h2>
+      </div>
+      <a href="/research">All tracks →</a>
+    </div>
+    <p class="section-intro tracks-intro">
+      My R&amp;D asks one question: how does computation really run on real chips? I work on it through AI inference, GPU programming, small devices and scientific computing.
+    </p>
+    <div class="grid-4">
+      {
+        tracks.map((track) => (
+          <TrackCard
+            letter={track.data.letter}
+            title={track.data.title}
+            status={track.data.status}
+            compact
+          />
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="latest-result-title">
+    <LatestResult />
+  </section>
+
+  <section class="section" aria-labelledby="notebook-heading">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">Field notes</p>
+        <h2 id="notebook-heading">Latest notebook</h2>
+      </div>
+      <a href="/notebook">All entries →</a>
+    </div>
+    <div class="grid-2" style="grid-template-columns:1fr;">
+      {
+        notes.map((note) => (
+          <NotebookCard
+            title={note.data.title}
+            date={note.data.date}
+            track={note.data.track}
+            summary={note.data.summary}
+            href={`/notebook/${note.id}`}
+          />
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="contact-heading">
+    <p class="eyebrow">Contact</p>
+    <h2 id="contact-heading">Say hello</h2>
+    <p class="contact-line" style="margin-top:0.75rem;">
+      <a href="mailto:karthikjohnbabu@gmail.com">karthikjohnbabu@gmail.com</a>
+      <a href="https://github.com/karthikjohnbabu" rel="me noopener noreferrer" target="_blank">GitHub</a>
+      <a href="https://www.linkedin.com/in/karthik-john-babu/" rel="me noopener noreferrer" target="_blank">LinkedIn</a>
+    </p>
+  </section>
+</BaseLayout>
